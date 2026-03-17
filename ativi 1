@@ -1,0 +1,121 @@
+from rich.console import Console # responsavel pelas cores
+from rich.table import Table # cria tabela
+
+console = Console() # responsavel por cria objeto para a saida
+
+def quadrante(x, y):
+    if x == 0 and y == 0: return "zero"
+    if x == 0: return "Eixo Y"
+    if y == 0: return "Eixo X"
+    if x > 0 and y > 0: return "Q1"
+    if x < 0 and y > 0: return "Q2"
+    if x < 0 and y < 0: return "Q3"
+    return "Q4"
+
+# responsavel pelas cores para cada resultado
+cores = {
+    "Q1": "green",
+    "Q2": "blue",
+    "Q3": "red",
+    "Q4": "yellow",
+    "zero": "magenta",
+    "Eixo X": "cyan",
+    "Eixo Y": "cyan"
+}
+
+# entrada de dados
+x, y = 0, 0 # Inicializa x e y para evitar NameError caso a entrada seja inválida
+try:
+    x = int(input("Digite x: "))
+    y = int(input("Digite y: "))
+except ValueError:
+    print("Entrada inválida, digite apenas números.")
+    # x e y manterão os valores padrão (0,0) neste caso
+
+resultado = quadrante(x, y)
+
+# Criando tabela com cor dinâmica
+table = Table(title=f"Resultado da Análise do Ponto ({x}, {y})") # Indentação corrigida
+
+table.add_column("Coordenadas", justify="center", style="bold cyan")
+table.add_column("Localização", justify="center", style=cores[resultado])
+
+table.add_row(f"({x}, {y})", resultado)
+
+console.print(table)
+
+L1, L2, L3 = 0.0, 0.0, 0.0
+try:
+    L1 = float(input("digite o valor de L1: "))
+    L2 = float(input("digite o valor de L2:")) # Corrigido para L2
+    L3 = float(input("digite o valor de L3:")) # Corrigido para L3
+except ValueError:
+    print("Entrada inválida, digite apenas números.")
+
+if L1 < L2 + L3 and L2 < L1 + L3 and L3 < L1 + L2:
+    if L1 == L2 == L3:
+        print("Triângulo Equilátero")
+    elif L1 == L2 or L2 == L3 or L1 == L3:
+        print("Triângulo Isósceles")
+    else:
+        print("Triângulo Escaleno")
+else:
+    print("Os valores informados não formam um triângulo")
+
+soma = 0
+
+while soma <= 99:
+    try:
+        numero = float(input("Digite um número: "))
+    except ValueError:
+        print("Entrada inválida, digite apenas números.")
+        continue
+    if numero < 0:
+        print("Valor negativo não será somado.")
+    else:
+        if soma + numero > 100:
+            print(f"Atenção: ao somar {numero}, a soma vai ultrapassar 100!")
+        soma += numero
+        print(f"Soma parcial: {soma}")
+
+print("A soma total foi:", soma)
+
+def tabuada(numero, limite=10):
+    print(f"Tabuada do {numero}:")
+    for i in range(1, limite + 1):
+        print(f"{numero} x {i} = {numero * i}")
+try:
+    numero = int(input("Digite um número inteiro: "))
+    limite = int(input("Digite até qual número deseja ver a tabuada: "))
+    tabuada(numero, limite)
+except ValueError:
+    print("Entrada inválida! Por favor, digite apenas números inteiros.")
+
+def converter_temperatura(valor, escala_origem):
+
+    escala = escala_origem.lower()
+
+    # Converte para Celsius
+    if escala == "celsius":
+        celsius = valor
+    elif escala == "fahrenheit":
+        celsius = (valor - 32) * 5/9
+    elif escala == "kelvin":
+        celsius = valor - 273.15
+    else:
+        return "Escala inválida!"
+
+    # Responsavel pela alidação do zero absoluto
+    if celsius < -273.15:
+        return "Valor abaixo do zero absoluto! Inválido."
+
+
+    fahrenheit = (celsius * 9/5) + 32
+    kelvin = celsius + 273.15
+
+    return f"Celsius: {celsius:.2f}, Fahrenheit: {fahrenheit:.2f}, Kelvin: {kelvin:.2f}"
+
+valor = float(input("Digite o valor da temperatura: "))
+escala = input("Digite a escala de origem (Celsius, Fahrenheit ou Kelvin): ")
+
+print(converter_temperatura(valor, escala))
