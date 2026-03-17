@@ -1,0 +1,24 @@
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+dados = np.random.normal(loc=50, scale=10, size=100)
+
+# Teste Shapiro-Wilk
+stat, p = stats.shapiro(dados)
+print("Shapiro-Wilk Teste:")
+print("Estatística =", stat, "p-valor =", p)
+
+if p > 0.05:
+    print("Os dados parecem seguir distribuição normal (não rejeitamos H0).")
+else:
+    print("Os dados NÃO seguem distribuição normal (rejeitamos H0).")
+
+# Teste D’Agostino e Pearson
+stat, p = stats.normaltest(dados)
+print("\nD’Agostino e Pearson Teste:")
+print("Estatística =", stat, "p-valor =", p)
+
+plt.hist(dados, bins=15, edgecolor="black", density=True)
+plt.title("Histograma dos Dados")
+plt.show()
